@@ -19,7 +19,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
     font: inherit;
 }
 
@@ -102,7 +103,13 @@ h1 {
 }
 
 .search {
+    display: grid;
     max-width: 720px;
+    gap: 20px;
+}
+
+.search-field {
+    min-width: 0;
 }
 
 .search label {
@@ -111,26 +118,36 @@ h1 {
     font-weight: 600;
 }
 
-.search-controls {
-    display: flex;
-    gap: 10px;
+.filter-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
 }
 
-.search input {
-    flex: 1;
+.search input,
+.search select {
+    width: 100%;
     min-width: 0;
-    padding: 16px 18px;
+    padding: 14px 16px;
     border: 2px solid transparent;
     border-radius: 10px;
     outline: none;
+    background: #fff;
+    color: #18231d;
 }
 
-.search input:focus {
+.search input:focus,
+.search select:focus {
     border-color: #8ee0b5;
 }
 
+.search-actions {
+    display: flex;
+    gap: 12px;
+}
+
 .search button {
-    padding: 0 26px;
+    padding: 14px 26px;
     border: 0;
     border-radius: 10px;
     background: #8ee0b5;
@@ -156,11 +173,9 @@ h1 {
 }
 
 .clear-button {
-    padding: 10px 0;
-    border: 0;
+    border: 1px solid #8ee0b5;
     background: transparent;
-    color: #176b45;
-    font-weight: 700;
+    color: #fff;
 }
 
 .project-list {
@@ -283,11 +298,16 @@ h1 {
         padding: 42px 24px;
     }
 
-    .search-controls {
+    .filter-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .search-actions {
         flex-direction: column;
     }
 
     .search button {
+        width: 100%;
         padding: 15px;
     }
 
