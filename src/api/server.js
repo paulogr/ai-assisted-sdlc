@@ -72,19 +72,31 @@ const projects = [
   },
 ];
 
+const categories = new Set(["Web Development", "Backend Development", "Design", "Writing"]);
+const experienceLevels = new Set(["Entry level", "Intermediate", "Expert"]);
+const projectTypes = new Set(["Fixed price", "Hourly"]);
+
 app.get("/api/projects", (request, response) => {
   const query = String(request.query.q || "")
     .trim()
     .toLowerCase();
-
-  if (!query) {
-    return response.json(projects);
-  }
+  const category = categories.has(request.query.category) ? request.query.category : "";
+  const experienceLevel = experienceLevels.has(request.query.experienceLevel) ? request.query.experienceLevel : "";
+  const projectType = projectTypes.has(request.query.projectType) ? request.query.projectType : "";
+  const minBudgetValue = String(request.query.minBudget ?? "").trim();
+  const parsedMinBudget = Number(minBudgetValue);
+  const minBudget = minBudgetValue && Number.isFinite(parsedMinBudget) && parsedMinBudget >= 0 ? parsedMinBudget : null;
 
   const matches = projects.filter((project) => {
     const searchableText = [project.title, project.description, project.category, ...project.skills].join(" ").toLowerCase();
 
-    return searchableText.includes(query);
+    return (
+      (!query || searchableText.includes(query)) &&
+      (!category || project.category === category) &&
+      (!experienceLevel || project.experienceLevel === experienceLevel) &&
+      (!projectType || project.projectType === projectType) &&
+      (minBudget === null || (project.projectType === "Fixed price" && project.budget >= minBudget))
+    );
   });
 
   response.json(matches);
