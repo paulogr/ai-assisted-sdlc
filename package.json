@@ -1,0 +1,22 @@
+{
+  "name": "workmatch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "node --watch src/api/server.js",
+    "dev:web": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node src/api/server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "vite": "^7.1.7"
+  }
+}
